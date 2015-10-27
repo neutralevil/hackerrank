@@ -7,19 +7,20 @@ using namespace std;
 
 bool match(const vector<string>& grid, const vector<string>& pattern) {
     for (size_t rg = 0; rg < grid.size() - pattern.size() + 1; ++rg) {
-        auto pos = grid[rg].find(pattern[0]);
-        if (pos == string::npos)
-            continue;
+        string::size_type pos = 0;
+        while ((pos = grid[rg].find(pattern[0], pos)) != string::npos) {
+            bool found = true;
+            for (size_t rp = 1; rp < pattern.size(); ++rp) {
+                found = (grid[rg + rp].find(pattern[rp], pos) == pos);
+                if (!found)
+                    break;
+            }
 
-        bool found = true;
-        for (size_t rp = 1; rp < pattern.size(); ++rp) {
-            found = (grid[rg + rp].find(pattern[rp], pos) == pos);
-            if (!found)
-                break;
+            if (found)
+                return found;
+
+            pos += pattern[0].size();
         }
-
-        if (found)
-            return found;
     }
 
     return false;
