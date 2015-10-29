@@ -1,6 +1,4 @@
-#include <set>
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 int main() {
@@ -9,14 +7,14 @@ int main() {
     while (T--) {
         int n, a, b;
         cin >> n >> a >> b;
-        set<int> answer;
-        for (int i = 0; i < n; ++i) {
-            answer.insert((a * i) + (b * (n - i - 1)));
-        }
 
-        cout << *answer.begin();
-        for (auto it = ++answer.begin(); it != answer.end(); ++it)
-            cout << ' ' << *it;
+        int step = abs(a-b);
+        int answer = min(a, b) * (n-1);
+        cout << answer;
+        for (int i = step ? 1 : n; i < n; ++i) {
+            answer += step;
+            cout << " " << answer;
+        }
         cout << endl;
     }
     return 0;
